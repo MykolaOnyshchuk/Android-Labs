@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Lab1Kotlin</string>
+    <string name="red">Red</string>
+    <string name="color_choosing_app">Color choosing app</string>
+    <string name="green">Green</string>
+    <string name="blue">Blue</string>
+    <string name="add">Add</string>
+    <string name="substract">Substract</string>
+    <string name="multiply">Multiply</string>
+    <string name="divide">Divide</string>
+    <string name="equals">Equals</string>
+    <string name="result">Result</string>
+    <string name="ok">OK</string>
+    <string name="choose_action_to_calculate">Choose action to calculate</string>
+    <string name="first_number">First number</string>
+    <string name="second_number">Second number</string>
+</resources>
