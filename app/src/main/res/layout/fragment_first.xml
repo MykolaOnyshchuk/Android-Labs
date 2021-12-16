@@ -62,15 +62,15 @@
     <EditText
         android:id="@+id/editText1"
         android:layout_width="136dp"
-        android:layout_height="47dp"
+        android:layout_height="48dp"
         android:layout_marginStart="36dp"
         android:layout_marginTop="350dp"
-        android:autofillHints=""
         android:background="#CCCCCC"
-        android:ems="10"
         android:inputType="textPersonName"
+        android:ems="10"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup">
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        android:importantForAutofill="no">
 
         <requestFocus />
     </EditText>
@@ -78,29 +78,18 @@
     <EditText
         android:id="@+id/editText2"
         android:layout_width="136dp"
-        android:layout_height="47dp"
+        android:layout_height="48dp"
         android:layout_marginStart="220dp"
         android:layout_marginTop="350dp"
-        android:autofillHints=""
         android:background="#CCCCCC"
-        android:ems="10"
         android:inputType="textPersonName"
+        android:ems="10"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup">
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        android:importantForAutofill="no">
 
         <requestFocus />
     </EditText>
-
-    <TextView
-        android:id="@+id/secondNumberText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="240dp"
-        android:layout_marginTop="320dp"
-        android:labelFor="@id/editText2"
-        android:text="@string/second_number"
-        app:layout_constraintStart_toEndOf="@+id/firstNumberText"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
     <TextView
         android:id="@+id/firstNumberText"
@@ -113,6 +102,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
+
+    <TextView
+        android:id="@+id/secondNumberText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="240dp"
+        android:layout_marginTop="320dp"
+        android:labelFor="@id/editText2"
+        android:text="@string/second_number"
+        app:layout_constraintStart_toEndOf="@+id/firstNumberText"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
@@ -122,5 +122,15 @@
         android:text="@string/ok"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText1" />
+
+    <Button
+        android:id="@+id/buttonOpen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="280dp"
+        android:layout_marginTop="470dp"
+        android:text="@string/open"
+        />
 
 </FrameLayout>

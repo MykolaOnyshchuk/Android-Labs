@@ -1,14 +1,15 @@
 package com.example.lab1kotlin
 
-import android.content.Context.MODE_PRIVATE
-import android.database.Cursor
-import android.database.sqlite.SQLiteDatabase
+import android.content.Context.MODE_APPEND
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import java.io.FileOutputStream
+import java.io.IOException
 
 
 class FirstFragment : Fragment() {
@@ -19,6 +20,9 @@ class FirstFragment : Fragment() {
     private lateinit var textView: TextView
     private lateinit var firstNumberText: TextView
     private lateinit var button: Button
+    private lateinit var buttonOpen: Button
+
+    private val FILE_NAME = "text.txt"
 
 
     override fun onCreateView(
@@ -32,33 +36,55 @@ class FirstFragment : Fragment() {
         textView = view.findViewById(R.id.textView)
         firstNumberText = view.findViewById(R.id.firstNumberText)
         button = view.findViewById(R.id.button)
+        buttonOpen = view.findViewById(R.id.buttonOpen)
+
+        val intentActivity2 = Intent(activity?.applicationContext, SecondActivity::class.java)
 
         var operator = ""
         var result = 0.0
 
+        var checked = "add"
+        radioGroup.setOnCheckedChangeListener{ group, checkedId ->
+            if(checkedId == R.id.radioButton1)
+            {
+                checked = "add"
+            }
+            if(checkedId == R.id.radioButton2)
+            {
+                checked = "substract"
+            }
+            if(checkedId == R.id.radioButton3)
+            {
+                checked = "multiply"
+            }
+            if(checkedId == R.id.radioButton4)
+            {
+                checked = "divide"
+            }
+        }
+
         button.setOnClickListener {
             try {
-                val id = radioGroup.checkedRadioButtonId
 
-                if (radioGroup.checkedRadioButtonId % 10 == 0)
+                if (checked == "add")
                 {
                     (activity as MainActivity).getResult((getTextValue(editText1) + getTextValue(editText2)).toString())
                     operator = "+"
                     result = (getTextValue(editText1) + getTextValue(editText2)).toDouble()
                 }
-                else if (radioGroup.checkedRadioButtonId % 10 == 1)
+                else if (checked == "substract")
                 {
                     (activity as MainActivity).getResult((getTextValue(editText1) - getTextValue(editText2)).toString())
                     operator = "-"
                     result = (getTextValue(editText1) - getTextValue(editText2)).toDouble()
                 }
-                else if (radioGroup.checkedRadioButtonId % 10 == 2)
+                else if (checked == "multiply")
                 {
                     (activity as MainActivity).getResult((getTextValue(editText1) * getTextValue(editText2)).toString())
                     operator = "*"
                     result = (getTextValue(editText1) * getTextValue(editText2)).toDouble()
                 }
-                else if (radioGroup.checkedRadioButtonId % 10 == 3)
+                else if (checked == "divide")
                 {
                     (activity as MainActivity).getResult((getTextValue(editText1) / getTextValue(editText2)).toString())
                     operator = "/"
@@ -68,21 +94,45 @@ class FirstFragment : Fragment() {
             catch (e: Exception) {
                 Toast.makeText(activity?.applicationContext, "You have to type float numbers in", Toast.LENGTH_SHORT).show()
             }
-            val db: SQLiteDatabase? = activity?.openOrCreateDatabase("app.db", MODE_PRIVATE, null)
-            db?.execSQL("CREATE TABLE IF NOT EXISTS calculations (firstValue REAL, secondValue REAL, operator STRING, result REAL)")
-            db?.execSQL("INSERT OR IGNORE INTO calculations VALUES (${getTextValue(editText1)}, ${getTextValue(editText2)}, ${operator}, ${result});")
-            val query: Cursor = db!!.rawQuery("SELECT * FROM calculations;", null)
-            if (query.moveToFirst()) {
-                val firstVal: Double = query.getDouble(0)
-                val secondVal: Double = query.getDouble(1)
-                val operation: String = query.getString(2)
-                val result: Double = query.getDouble(3)
 
 
+            var fos: FileOutputStream? = null
+            try {
+
+                fos = context?.openFileOutput(FILE_NAME, MODE_APPEND)
+                fos?.write((editText1.text.toString() + operator + editText2.text.toString() + "=" + result + "\n").toByteArray())
+                Toast.makeText(activity?.applicationContext, "Saved", Toast.LENGTH_LONG).show()
+            } catch (ex: IOException) {
+                Toast.makeText(activity?.applicationContext, "Error writing to file", Toast.LENGTH_LONG).show()
+            } finally {
+                try {
+                    fos?.close()
+                } catch (ex: IOException) {
+                    Toast.makeText(activity?.applicationContext, "Error opening stream", Toast.LENGTH_LONG).show()
+                }
             }
-            query.close()
-            db.close()
+
         }
+
+        buttonOpen.setOnClickListener{
+            startActivity(intentActivity2)
+        }
+
+
+//            val db: SQLiteDatabase? = activity?.openOrCreateDatabase("app.db", MODE_PRIVATE, null)
+//            db?.execSQL("CREATE TABLE IF NOT EXISTS calculations (firstValue REAL, secondValue REAL, operator STRING, result REAL)")
+//            db?.execSQL("INSERT OR IGNORE INTO calculations VALUES (${getTextValue(editText1)}, ${getTextValue(editText2)}, ${operator}, ${result});")
+//            val query: Cursor = db!!.rawQuery("SELECT * FROM calculations;", null)
+//            if (query.moveToFirst()) {
+//                val firstVal: Double = query.getDouble(0)
+//                val secondVal: Double = query.getDouble(1)
+//                val operation: String = query.getString(2)
+//                val result: Double = query.getDouble(3)
+//
+//
+//            }
+//            query.close()
+//            db.close()
 
 
         return view
